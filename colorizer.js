@@ -1,9 +1,10 @@
+const pickedColor = ''
+
 function getTargetNode(event) {
     const node = event.target;
-    node.style.background = 'red'
+    node.style.background = 'red';
     console.log(node.style);
 }
-
 
 
 function elementDisplayer(active) {
@@ -21,17 +22,20 @@ chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(request)
         if (request.pickedColor) {
-            console.log(`you picked this color: ${request.pickedColor}`)
+            console.log(`you picked this color: ${request.pickedColor}`);
+            pickedColor = request.pickedColor
         }
 
         else if (request.isToggleOn) {
-            elementDisplayer(true)
+            elementDisplayer(true);
+            sendResponse('picker active')
         }
 
         else if (!request.isToggleOn) {
-            elementDisplayer(false)
+            elementDisplayer(false);
+            sendResponse('')
         }
 
-        else console.log(`unexpected message: ${request}`)
+        else console.log(`unexpected message: ${request}`);
     }
 );

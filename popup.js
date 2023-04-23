@@ -1,10 +1,18 @@
 const onOffswitch = document.getElementById('on-off-input');
-const colorPick = document.getElementById('pick-color')
+const colorPick = document.getElementById('pick-color');
 
-// -------- Send on/off state ----------
+// -------- Send on/off state to colorizer ----------
 const sendOnOff = async function sendMessage(onOff) {
     const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
     const response = await chrome.tabs.sendMessage(tab.id, { isToggleOn: onOff });
+
+    if (response) {
+        const pickColorTxt = document.getElementById('pick-color-txt');
+        pickColorTxt.innerHTML = 'Pick an element';
+    }
+    else if (!response) {
+
+    }
     console.log(response);
 }
 
@@ -12,6 +20,7 @@ const sendOnOff = async function sendMessage(onOff) {
 onOffswitch.addEventListener('click', () => {
     if (onOffswitch.checked) {
         sendOnOff(true);
+
     } else sendOnOff(false);
 })
 
