@@ -22,6 +22,7 @@ const sendColor = async function sendMessage(color) {
     console.log(response);
 }
 
+// CPU go brrrrr, maybe send message only when color is picked ?!
 function getColor(event) {
     const pickedColor = event.target.value
     sendColor(pickedColor)

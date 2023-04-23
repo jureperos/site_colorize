@@ -20,9 +20,18 @@ function elementDisplayer(active) {
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(request)
-        if (request.isToggleOn) {
-            sendResponse('this is the colorizer response')
+        if (request.pickedColor) {
+            console.log(`you picked this color: ${request.pickedColor}`)
+        }
+
+        else if (request.isToggleOn) {
             elementDisplayer(true)
-        } else elementDisplayer(false)
+        }
+
+        else if (!request.isToggleOn) {
+            elementDisplayer(false)
+        }
+
+        else console.log(`unexpected message: ${request}`)
     }
 );
