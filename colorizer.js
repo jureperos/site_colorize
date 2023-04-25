@@ -1,4 +1,5 @@
 let pickedColor = ''
+let toggleState = 'off'
 
 function getTargetNode(event) {
     const node = event.target;
@@ -6,6 +7,11 @@ function getTargetNode(event) {
     console.log(node.style);
 }
 
+function getTargetNode(event) {
+    const node = event.target;
+    node.style.background = pickedColor;
+    console.log(node.style);
+}
 
 function elementDisplayer(active) {
     if (active) {
@@ -25,14 +31,21 @@ chrome.runtime.onMessage.addListener(
             pickedColor = request.pickedColor;
         }
 
-        else if (request.isToggleOn) {
+        else if (request.isToggleOn === 'on') {
             elementDisplayer(true);
             sendResponse('picker active');
+            toggleState = 'on'
         }
 
-        else if (!request.isToggleOn) {
+        else if (request.isToggleOn === 'off') {
             elementDisplayer(false);
-            sendResponse('picker off');
+            //if toggle is off respond with a falsy value
+            sendResponse('');
+            toggleState = 'off'
+        }
+
+        else if (request.whatState === 'check') {
+            sendResponse(toggleState)
         }
 
         else console.log(`unexpected message: ${request}`);
