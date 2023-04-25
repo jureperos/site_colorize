@@ -5,13 +5,13 @@ const colorPick = document.getElementById('pick-color');
 const sendOnOff = async function sendMessage(onOff) {
     const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
     const response = await chrome.tabs.sendMessage(tab.id, { isToggleOn: onOff });
+    const pickColorTxt = document.getElementById('pick-color-txt');
 
     if (response) {
-        const pickColorTxt = document.getElementById('pick-color-txt');
         pickColorTxt.innerHTML = 'Pick an element';
     }
     else if (!response) {
-
+        pickColorTxt.innerHTML = '';
     }
     console.log(response);
 }
@@ -33,8 +33,8 @@ const sendColor = async function sendMessage(color) {
 
 // CPU go brrrrr, maybe send message only when color is picked ?!
 function getColor(event) {
-    const pickedColor = event.target.value
-    sendColor(pickedColor)
+    const pickedColor = event.target.value;
+    sendColor(pickedColor);
 }
 
-colorPick.addEventListener('input', getColor)
+colorPick.addEventListener('input', getColor);
