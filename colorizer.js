@@ -1,23 +1,28 @@
-let pickedColor = ''
-let toggleState = 'off'
+let pickedColor = '';
+let toggleState = 'off';
 
-function getTargetNode(event) {
+function colorNode(event) {
     const node = event.target;
     node.style.background = pickedColor;
-    console.log(node.style);
 }
 
-function getTargetNode(event) {
+// highilts node on enter
+function highlightNode(event) {
     const node = event.target;
-    node.style.background = pickedColor;
-    console.log(node.style);
+    node.style.border = 'solid 1px limegreen';
+
+    // removes the highlight on leaving node
+    // fix: When the cursor goes to the child node remove the highlight of the parent node.
+    node.addEventListener('mouseleave', () => node.style.border = '')
 }
 
 function elementDisplayer(active) {
     if (active) {
-        document.addEventListener('click', getTargetNode);
+        document.addEventListener('click', colorNode);
+        document.addEventListener('mouseover', highlightNode);
     } else {
-        document.removeEventListener('click', getTargetNode);
+        document.removeEventListener('click', colorNode);
+        document.removeEventListener('mouseover', highlightNode);
         console.log('switch off');
     }
 };
