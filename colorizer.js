@@ -1,24 +1,27 @@
 let pickedColor = '';
 let toggleState = 'off';
+let targetNode = ''; //correct the datatype for the empty variable if needed
 
 function colorNode(event) {
-    const node = event.target;
-    node.style.background = pickedColor;
+    if (event.key === 'c' || event.key === 'C') {
+        targetNode.style.background = pickedColor;
+    }
 }
 
-// highilts node on enter
+// highlights node on enter
 function highlightNode(event) {
-    const node = event.target;
-    node.style.border = 'solid 1px limegreen';
+    targetNode = event.target;
+    targetNode.style.border = 'solid 1px limegreen';
 
     // removes the highlight on leaving node
-    // fix: When the cursor goes to the child node remove the highlight of the parent node.
-    node.addEventListener('mouseleave', () => node.style.border = '')
-}
+    /////////// to fix: When the cursor goes to the child node remove the highlight of the parent node.//////////////////////
+    targetNode.addEventListener('mouseleave', () => targetNode.style.border = '');
+
+    }
 
 function elementDisplayer(active) {
     if (active) {
-        document.addEventListener('click', colorNode);
+        document.addEventListener('keydown', colorNode);
         document.addEventListener('mouseover', highlightNode);
     } else {
         document.removeEventListener('click', colorNode);
@@ -50,7 +53,7 @@ chrome.runtime.onMessage.addListener(
         }
 
         else if (request.whatState === 'check') {
-            sendResponse(toggleState)
+            sendResponse(toggleState);
         }
 
         else console.log(`unexpected message: ${request}`);
