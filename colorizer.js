@@ -14,7 +14,6 @@ function highlightNode(event) {
     targetNode.style.border = 'solid 1px limegreen';
 
     // removes the highlight on leaving node
-    /////////// to fix: When the cursor goes to the child node remove the highlight of the parent node.//////////////////////
     targetNode.addEventListener('mouseleave', () => targetNode.style.border = '');
     targetNode.parentNode.style.border = '';
     }
