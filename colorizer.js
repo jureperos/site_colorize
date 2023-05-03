@@ -3,7 +3,7 @@ let toggleState = 'off';
 let targetNode = ''; //correct the datatype for the empty variable if needed
 
 function colorNode(event) {
-    if (event.key === 'c' || event.key === 'C') {
+    if (event.key === 'c') {
         targetNode.style.background = pickedColor;
     }
 }
@@ -13,15 +13,24 @@ function highlightNode(event) {
     targetNode = event.target;
     targetNode.style.border = 'solid 1px limegreen';
 
-    // removes the highlight on leaving node
-    targetNode.addEventListener('mouseleave', () => targetNode.style.border = '');
+    // removes the highlight on leaving node. Some highlights still stay
+    // when going to sibling node???
+        targetNode.addEventListener('mouseleave', () => targetNode.style.border = '');
     targetNode.parentNode.style.border = '';
+}
+
+function undooNodeStyle(event) {
+    if (event.key === u) {
+        node = event.target;
+        node.style.background = '';
     }
+}
 
 function elementDisplayer(active) {
     if (active) {
         document.addEventListener('keydown', colorNode);
         document.addEventListener('mouseover', highlightNode);
+        document.addEventListener('keydown', undooNodeStyle);
     } else {
         document.removeEventListener('click', colorNode);
         document.removeEventListener('mouseover', highlightNode);
@@ -29,7 +38,7 @@ function elementDisplayer(active) {
     }
 };
 
-// recieve and parse messages
+//  manage communication from popup.js
 chrome.runtime.onMessage.addListener(
     function (request, sender, sendResponse) {
         console.log(request)
