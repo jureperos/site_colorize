@@ -41,9 +41,15 @@ const sendColor = async function sendMessage(color) {
 }
 
 // CPU go brrrrr, maybe send message only when color is picked ?!
+
+
 function getColor(event) {
     const pickedColor = event.target.value;
-    sendColor(pickedColor);
+    const getColorBtn = document.querySelector("#pick-col-btn")
+
+    getColorBtn.addEventListener("click", () => {
+        sendColor(pickedColor);
+    })
 }
 
 colorPick.addEventListener('input', getColor);
