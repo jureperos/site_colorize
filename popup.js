@@ -1,5 +1,7 @@
 const onOffswitch = document.getElementById('on-off-input');
 const colorPick = document.getElementById('pick-color');
+const getColorBtn = document.querySelector("#pick-col-btn");
+let pickedColor = '';
 
 // check the state of the toggle stored in colorizer so the toggle isn't reset after closing and oppening the popup
 const checkSwitchState = async function sendMessage() {
@@ -36,21 +38,18 @@ onOffswitch.addEventListener('click', () => {
 
 // ------- Send picked color ---------
 const sendColor = async function sendMessage(color) {
+    console.log(color);
     const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
     const response = await chrome.tabs.sendMessage(tab.id, { pickedColor: color });
 }
 
-// CPU go brrrrr, maybe send message only when color is picked ?!
-
-
 function getColor(event) {
-    const pickedColor = event.target.value;
-    const getColorBtn = document.querySelector("#pick-col-btn")
-
-    getColorBtn.addEventListener("click", () => {
-        sendColor(pickedColor);
-    })
+    pickedColor = event.target.value;
 }
+
+getColorBtn.addEventListener("click", () => {
+    sendColor(pickedColor);
+})
 
 colorPick.addEventListener('input', getColor);
 
